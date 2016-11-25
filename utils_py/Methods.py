@@ -89,8 +89,7 @@ def generatesParams(searchSpaceSize,
                  mutProbability,
                  typeLS,
                  typeCO,
-                 distanceCriteria,
-		 angleList):
+                 distanceCriteria):
 
     paramsAlgorithms = ParamsAlgorithms.ParamsAlgorithms()
     paramsAlgorithms.searchSpaceSize = searchSpaceSize
@@ -114,7 +113,6 @@ def generatesParams(searchSpaceSize,
     paramsAlgorithms.typeCO = typeCO
     paramsAlgorithms.mutProbability = mutProbability
     paramsAlgorithms.distanceCriteria = distanceCriteria
-    paramsAlgorithms.angleList = angleList
 
     'Optional Params'
     if(algorithmType == 1):

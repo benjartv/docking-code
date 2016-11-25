@@ -11,13 +11,13 @@ import random
 
 '************************** PDB FILES ***************************'
 
-'''
+
 __MoleculeName = '1ENY'
 __LigandName = 'NAD'
 #__testPDB = '1ENY_Rigid_RMSD_0.000.pdb'
 #__testPDB = '1ENY_Rigid_RMSD_1.400.pdb'
-#__testPDB = '1ENY_Flexible_2_RMSD_1.300.pdb'
-__testPDB = '1ENY_Flexible_4_RMSD_1.400.pdb'
+__testPDB = '1ENY_Flexible_2_RMSD_1.300.pdb'
+#__testPDB = '1ENY_Flexible_4_RMSD_1.400.pdb'
 #__searchCenterPoint = [-4.200, 31.500, 12.000]
 __searchCenterPoint = [-2.721, 33.882, 14.162] #ligand Center
 __rotateAtoms = [[39,38], [35,36], [29,28], [28,27], [27,24], [24,23], [23,1], [1,4], [4,5], [5,6], [12,13]]
@@ -35,7 +35,7 @@ __searchCenterPoint = [12.567, 22.694, 5.309] #ligand Center
 __rotateAtoms = [[1,8], [3,23], [4,41], [5,30], [6,31], [7,32], [8,9], [16,17], [16,41], [23,24], [32,33], [33,34]]
 #[[34, 33], [3, 23]] #[[34, 33], [16, 41], [8, 9], [3, 23]]
 
-'''
+
 __MoleculeName = '1HPX'
 __LigandName = 'KNI'
 #__testPDB = '1HPX_Rigid_RMSD_0.000.pdb'
@@ -92,7 +92,7 @@ __castPercent = [20, 50, 30]
 __mutProbability = 0.1
 
 'Distance criteria (for updateAgent)'
-__distanceCriteria = 2.0
+__distanceCriteria = 0.0
 
 'Type of CrossOver'
 __typeCO = 0
@@ -131,12 +131,12 @@ moleculeList = IO.readAllPDB(__testPDB, __LigandName)
 protein = copy.deepcopy(moleculeList[0])
 ligand = copy.deepcopy(moleculeList[1])
 
-'Center Molecule'
+'Center Molecule to (0,0,0)'
 originPoint = protein.findCenter()
 protein.translate([originPoint[0] * -1, originPoint[1] * -1, originPoint[2] * -1])
 ligand.translate([originPoint[0] * -1, originPoint[1] * -1, originPoint[2] * -1])
 
-'Traslate search center point'
+'Traslate search center point to position of molecule'
 alterCenterPoint = [__searchCenterPoint[0] + (originPoint[0]*-1),
                     __searchCenterPoint[1] + (originPoint[1]*-1),
                     __searchCenterPoint[2] + (originPoint[2]*-1)]
@@ -156,51 +156,6 @@ ligand = IO.readPDB("ligand.pdb", 'HETATM', os.path.join(ROOTPATH, 'temp'))
 'Recover Connection Matrix'
 ligand.connectMatrix = connectMatrix
 
-############################
-'Angle preferences'
-angleList = []
-'''
-file7 = "Dihedral-ANGLE_O5B-C5B__C5B-C4B.txt"
-file6 = "Dihedral-ANGLE_PA-O5B__O5B-C5B.txt"
-file5 = "Dihedral-ANGLE_O3-PA__PA-O5B.txt"
-file4 = "Dihedral-ANGLE_PN-O3__O3-PA.txt"
-file3 = "Dihedral-ANGLE_O5D-PN__PN-O3.txt"
-file2 = "Dihedral-ANGLE_C5D-O5D__O5D-PN.txt"
-file1 = "Dihedral-ANGLE_C4D-C5D__C5D-O5D.txt"
-
-angleList.append(IO.readAngles(file1))
-angleList.append(IO.readAngles(file2))
-angleList.append(IO.readAngles(file3))
-angleList.append(IO.readAngles(file4))
-angleList.append(IO.readAngles(file5))
-
-############################
-
-bondfile0 = "bond-C7N-C3N.txt"
-bondfile1 = "bond-N1N-C1D.txt"
-bondfile2 = "bond-C4D-C5D.txt"
-bondfile3 = "bond-C5D-O5D.txt"
-bondfile4 = "bond-O5D-PN.txt"
-bondfile5 = "bond-PN-O3.txt"
-bondfile6 = "bond-O3-PA.txt"
-bondfile7 = "bond-PA-O5B.txt"
-bondfile8 = "bond-O5B-C5B.txt"
-bondfile9 = "bond-C5B-C4B.txt"
-bondfile10 = "bond-C1B-N9A.txt"
-
-angleList.append(IO.readAngles(bondfile0))
-angleList.append(IO.readAngles(bondfile1))
-angleList.append(IO.readAngles(bondfile2))
-angleList.append(IO.readAngles(bondfile3))
-angleList.append(IO.readAngles(bondfile4))
-angleList.append(IO.readAngles(bondfile5))
-angleList.append(IO.readAngles(bondfile6))
-angleList.append(IO.readAngles(bondfile7))
-angleList.append(IO.readAngles(bondfile8))
-angleList.append(IO.readAngles(bondfile9))
-angleList.append(IO.readAngles(bondfile10))
-###########################
-'''
 
 'Original'
 IO.createsOriginalMolecule(__MoleculeName, __LigandName, connectMatrix)
@@ -228,8 +183,7 @@ __params = Methods.generatesParams(__searchSpaceSize,
                                    __mutProbability,
                                    __typeLS,
                                    __typeCO,
-                                   __distanceCriteria,
-                                   angleList)
+                                   __distanceCriteria)
 
 
 'Init Evolutionary algorithm'

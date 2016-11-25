@@ -11,7 +11,7 @@ import copy
 class LocalSeach(object):
 
     # ------------------------------ Init -------------------------------
-    def __init__(self, temp, tempMin, tempAlpha, innerLoop,  scoreFx, protein, spaceLen, spaceCenter, poseLigand, typeLS, angleList):
+    def __init__(self, temp, tempMin, tempAlpha, innerLoop,  scoreFx, protein, spaceLen, spaceCenter, poseLigand, typeLS):
         self.__temp = temp
         self.__tempMin = tempMin
         self.__tempAlpha = tempAlpha
@@ -23,7 +23,6 @@ class LocalSeach(object):
         self.__ligand = None
         self.__pose_ligand = poseLigand
         self.__typeLS = typeLS
-        self.__angleList = angleList
 
 
     # -------------------------- Init Process ---------------------------
@@ -92,7 +91,7 @@ class LocalSeach(object):
     def mutation(self, selectedPop, alpha = 1):
         rotation_bonds = len(selectedPop.rotateAtoms)
         if(rotation_bonds > 0):
-            mutPos = random.randint(1, (6 + rotation_bonds))
+            mutPos = random.randint(1, 7)
         else:
              mutPos = random.randint(1, 6)
         if mutPos == 1:
@@ -122,11 +121,12 @@ class LocalSeach(object):
             distright = round((200 - theta)*alpha)
             distleft = round(theta*alpha)
             selectedPop.theta = math.pi * random.randint(-distleft + theta, theta + distright) / 100.0
-        elif mutPos > 6:
-            angle = round(selectedPop.rotateAtoms[mutPos - 7] / math.pi * 100.0)
+        elif mutPos == 7:
+            select_pos = random.randint(0, rotation_bonds-1)
+            angle = round(selectedPop.rotateAtoms[select_pos] / math.pi * 100.0)
             distright = round((200 - angle)*alpha)
             distleft = round(angle*alpha)
-            selectedPop.rotateAtoms[mutPos - 7] = math.pi * random.randint(-distleft + angle, angle + distright) / 100.0
+            selectedPop.rotateAtoms[select_pos] = math.pi * random.randint(-distleft + angle, angle + distright) / 100.0
         return selectedPop
 
     '''

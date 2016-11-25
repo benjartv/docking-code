@@ -22,11 +22,9 @@ class ParamsAlgorithms:
         self.typeLS = 0
         self.typeCO = 0
         self.distanceCriteria = 0
-        self.angleList = []
 
         'Local Search'
         self.initTemperature = 0
         self.minTemperature = 0
         self.alphaTemperature = 0
         self.innerGenerations = 0
-        self.angleList = []

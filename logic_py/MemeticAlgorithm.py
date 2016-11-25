@@ -44,7 +44,6 @@ class MemeticAlgorithm(object):
         self.__treePopulation = [None] * (self.__treeSize * self.__pocketSize)
         self.__treeCurrent = [None] * self.__treeSize
         self.__timeStop = params.timeStop
-        self.__angleList = params.angleList
         self.__mutProbability = params.mutProbability
         self.__typeLS = params.typeLS
         self.__typeCO = params.typeCO
@@ -70,8 +69,7 @@ class MemeticAlgorithm(object):
                                                         self.__searchSpaceSize,
                                                         self.__newSpaceCenter,
                                                         self.__pose_ligand,
-                                                        self.__typeLS,
-							params.angleList)
+                                                        self.__typeLS)
 
     #--------------------------- Init Process ---------------------------
     def initProcess(self):
@@ -828,6 +826,7 @@ class MemeticAlgorithm(object):
                 selectedPop.sph_phi = math.pi * random.randint(0, 100) / 100.0
             elif mutPos == 6:
                 selectedPop.theta = math.pi * random.randint(0, 200) / 100.0
+            #modificar un enlace tiene la misma probabilidad de trasladar ligando...
             elif mutPos > 6:
                 selectedPop.rotateAtoms[mutPos-7] = math.pi * random.randint(0, 200) / 100.0
 
